@@ -1,5 +1,11 @@
+import Table from "./Table";
+
 function App() {
-  return <div className="App">React Quiz App</div>;
+  return (
+    <div className="App">
+      <Table />
+    </div>
+  );
 }
 
 export default App;
