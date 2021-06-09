@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useContext } from "react";
+import GameStatusContext from "./GameStatusContext";
 import Header from "./Header";
 
 const Start = () => {
-  const [nickname, setNickname] = useState("Guest");
-  const [gameOptions, setGameOptions] = useState({
-    difficulty: "medium",
-    amount: 10,
-  });
+  const { gameOptions, setGameOptions, setGameStatus, setNickname } =
+    useContext(GameStatusContext);
 
   const handleSelect = (e) => {
     setGameOptions({ ...gameOptions, difficulty: e.target.value });
@@ -14,6 +12,10 @@ const Start = () => {
 
   const handleInput = (e) => {
     setNickname(e.target.value);
+  };
+
+  const handleClick = () => {
+    setGameStatus("loading");
   };
 
   const welcomeText =
@@ -46,7 +48,9 @@ const Start = () => {
           ></input>
         </div>
         <div className="player-info__row">
-          <button className="btn player-info__btn">Play!</button>
+          <button onClick={handleClick} className="btn player-info__btn">
+            Play!
+          </button>
         </div>
       </div>
     </>
