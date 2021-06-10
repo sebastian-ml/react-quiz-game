@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Countdown from "./Countdown";
 import useFetchQuestions from "./useFetchQuestions";
 import Question from "./Question";
+import GameStatusContext from "./GameStatusContext";
+import Endgame from "./Endgame";
 
 const Quiz = ({ gameOptions }) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [quizReady, setQuizReady] = useState(false);
-  const [points, setPoints] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(1);
+  const [points, setPoints] = useState(0);
+  const [gameEnd, setGameEnd] = useState(false);
 
   const { questions, setQuestions, fetchComplete } =
     useFetchQuestions(gameOptions);
@@ -19,10 +22,14 @@ const Quiz = ({ gameOptions }) => {
   }, []);
 
   useEffect(() => {
-    if (fetchComplete) {
-      questions.length > 0
-        ? setCurrentQuestion(questions[0])
-        : setCurrentQuestion(null);
+    console.log(gameOptions.amount);
+    if (!fetchComplete) return;
+
+    if (questions.length > 0) {
+      setCurrentQuestion(questions[0]);
+    } else {
+      setCurrentQuestion(null);
+      setGameEnd(true);
     }
   }, [fetchComplete, questions]);
 
@@ -52,6 +59,9 @@ const Quiz = ({ gameOptions }) => {
           <div>Points: {points}</div>
           <Question question={currentQuestion} handleAnswer={handleAnswer} />
         </>
+      )}
+      {gameEnd && (
+        <Endgame score={points} totalQuestionsNumber={gameOptions.amount} />
       )}
     </>
   );

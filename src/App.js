@@ -27,7 +27,6 @@ function App() {
         <div className="table">
           {gameStatus === "start" && <Start />}
           {gameStatus === "quiz" && <Quiz gameOptions={gameOptions} />}
-          {gameStatus === "endgame" && <Endgame />}
         </div>
       </GameStatusContext.Provider>
     </div>
