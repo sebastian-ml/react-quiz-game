@@ -1,47 +1,57 @@
 import { useEffect, useState } from "react";
 import Countdown from "./Countdown";
+import useFetchQuestions from "./useFetchQuestions";
+import Question from "./Question";
 
 const Quiz = ({ gameOptions }) => {
-  const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [quizReady, setQuizReady] = useState(false);
+  const [points, setPoints] = useState(0);
+  const [questionNumber, setQuestionNumber] = useState(1);
+
+  const { questions, setQuestions, fetchComplete } =
+    useFetchQuestions(gameOptions);
 
   const timeToStartGame = 3000;
-  const baseUrl = "https://opentdb.com/api.php?";
-  const apiParameters = Object.keys(gameOptions)
-    .map((option) => `${option}=${gameOptions[option]}`)
-    .join("&");
-
-  const urlWithParameters = baseUrl + apiParameters;
 
   useEffect(() => {
     setTimeout(() => setQuizReady(true), timeToStartGame);
-
-    fetch(urlWithParameters)
-      .then((response) => {
-        if (!response.ok) throw Error("Error");
-
-        return response.json();
-      })
-      .then((data) => {
-        setQuestions(data.results);
-      })
-      .catch((e) => console.log("Ops something went wrong", e.message));
   }, []);
 
   useEffect(() => {
-    questions.length > 0
-      ? setCurrentQuestion(questions[0])
-      : setCurrentQuestion(null);
-  }, [questions]);
+    if (fetchComplete) {
+      questions.length > 0
+        ? setCurrentQuestion(questions[0])
+        : setCurrentQuestion(null);
+    }
+  }, [fetchComplete, questions]);
+
+  const updateQuestions = () => {
+    const questionsCopy = [...questions];
+    questionsCopy.shift();
+
+    setQuestions(questionsCopy);
+  };
+
+  const handleAnswer = (e) => {
+    const isAnswerCorrect = e.target.value === currentQuestion.correct_answer;
+
+    if (isAnswerCorrect) setPoints(points + 1);
+    updateQuestions();
+    setQuestionNumber(questionNumber + 1);
+  };
 
   return (
     <>
       {!quizReady && <Countdown time={timeToStartGame} />}
       {quizReady && currentQuestion !== null && (
-        <div className="question">
-          <h2>{currentQuestion.question}</h2>
-        </div>
+        <>
+          <div>
+            Question {questionNumber} / {gameOptions.amount}
+          </div>
+          <div>Points: {points}</div>
+          <Question question={currentQuestion} handleAnswer={handleAnswer} />
+        </>
       )}
     </>
   );
