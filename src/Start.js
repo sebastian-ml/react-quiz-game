@@ -15,7 +15,7 @@ const Start = () => {
   };
 
   const handleClick = () => {
-    setGameStatus("loading");
+    setGameStatus("quiz");
   };
 
   const welcomeText =

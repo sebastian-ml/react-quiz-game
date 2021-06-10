@@ -1,7 +1,6 @@
 import Start from "./Start";
 import Quiz from "./Quiz";
 import Endgame from "./Endgame";
-import Loading from "./Loading";
 import { useState } from "react";
 import GameStatusContext from "./GameStatusContext";
 
@@ -27,9 +26,8 @@ function App() {
       >
         <div className="table">
           {gameStatus === "start" && <Start />}
-          {gameStatus === "quiz" && <Quiz />}
+          {gameStatus === "quiz" && <Quiz gameOptions={gameOptions} />}
           {gameStatus === "endgame" && <Endgame />}
-          {gameStatus === "loading" && <Loading />}
         </div>
       </GameStatusContext.Provider>
     </div>
