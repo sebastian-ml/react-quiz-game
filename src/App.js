@@ -1,6 +1,5 @@
 import Start from "./Start";
 import Quiz from "./Quiz";
-import Endgame from "./Endgame";
 import { useState } from "react";
 import GameStatusContext from "./GameStatusContext";
 

@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import Countdown from "./Countdown";
 import useFetchQuestions from "./useFetchQuestions";
 import Question from "./Question";
-import GameStatusContext from "./GameStatusContext";
 import Endgame from "./Endgame";
 
 const Quiz = ({ gameOptions }) => {
