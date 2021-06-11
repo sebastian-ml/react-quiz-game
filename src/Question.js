@@ -1,13 +1,10 @@
-const Question = ({ question, handleAnswer }) => {
-  const answers = [question.correct_answer, ...question.incorrect_answers];
-  const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
-
+const Question = ({ question, answers, handleAnswer }) => {
   return (
     <div className="question">
-      <h2>{question.question}</h2>
+      <h2>{question}</h2>
 
       <ul className="question__answers">
-        {shuffledAnswers.map((answer) => (
+        {answers.map((answer) => (
           <li key={answer} className="question__answer">
             <button
               onClick={handleAnswer}
