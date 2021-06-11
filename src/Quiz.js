@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Timer from "./Timer";
-import Countdown from "./Countdown";
+import GameStartCountdown from "./GameStartCountdown.js";
 import useFetchQuestions from "./useFetchQuestions";
 import Question from "./Question";
 import Endgame from "./Endgame";
@@ -71,7 +70,7 @@ const Quiz = ({ gameOptions }) => {
 
   return (
     <>
-      {!quizReady && <Countdown time={timeToStartGame} />}
+      {!quizReady && <GameStartCountdown time={timeToStartGame} />}
       {quizReady && currentQuestion !== null && (
         <>
           <div>
