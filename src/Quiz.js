@@ -4,6 +4,7 @@ import useFetchQuestions from "./useFetchQuestions";
 import Question from "./Question";
 import Endgame from "./Endgame";
 import useCountdown from "./useCountdown";
+import Timer from "./Timer";
 
 const Quiz = ({ gameOptions }) => {
   const timeToStartGame = 3000;
@@ -78,7 +79,7 @@ const Quiz = ({ gameOptions }) => {
               Question {questionNumber} / {gameOptions.amount}
             </p>
             <p>Points: {points}</p>
-            <p>Time left: {timeLeft / 1000}</p>
+            <Timer timeLeft={timeLeft} />
           </div>
           <Question
             question={currentQuestion.question}

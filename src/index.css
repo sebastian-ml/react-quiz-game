@@ -96,3 +96,33 @@ button:hover {
     font-size: 1rem;
   }
 }
+
+.timer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer__svg {
+  transform: rotate(-90deg);
+}
+
+.timer__circle {
+  stroke: #fff;
+  stroke-width: 3;
+  fill: transparent;
+  stroke-dashoffset: 1000;
+  stroke-dasharray: 0;
+}
+
+.timer__line {
+  stroke: #bf32b8;
+  stroke-width: 13;
+  fill: transparent;
+  stroke-dasharray: 1000;
+}
+
+.timer__time {
+  position: absolute;
+}
