@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const useFetchQuestions = (gameOptions) => {
   const [questions, setQuestions] = useState([]);
-  const [fetchComplete, setFetchComplete] = useState(false);
+  const [fetchCompleted, setFetchCompleted] = useState(false);
 
   const baseUrl = "https://opentdb.com/api.php?";
   const apiParameters = Object.keys(gameOptions)
@@ -19,12 +19,12 @@ const useFetchQuestions = (gameOptions) => {
       })
       .then((data) => {
         setQuestions(data.results);
-        setFetchComplete(true);
+        setFetchCompleted(true);
       })
       .catch((e) => console.log("Ops something went wrong", e.message));
   }, [urlWithParameters]);
 
-  return { questions, fetchComplete, setQuestions };
+  return { questions, fetchCompleted, setQuestions };
 };
 
 export default useFetchQuestions;

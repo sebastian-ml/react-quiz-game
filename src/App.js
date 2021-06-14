@@ -1,7 +1,7 @@
 import Start from "./Start";
 import Quiz from "./Quiz";
 import { useState } from "react";
-import GameStatusContext from "./GameStatusContext";
+import GameStateContext from "./GameStateContext";
 
 function App() {
   const [gameStatus, setGameStatus] = useState("start");
@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="App">
-      <GameStatusContext.Provider
+      <GameStateContext.Provider
         value={{
           gameStatus,
           setGameStatus,
@@ -27,7 +27,7 @@ function App() {
           {gameStatus === "start" && <Start />}
           {gameStatus === "quiz" && <Quiz gameOptions={gameOptions} />}
         </div>
-      </GameStatusContext.Provider>
+      </GameStateContext.Provider>
     </div>
   );
 }

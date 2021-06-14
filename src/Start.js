@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import GameStatusContext from "./GameStatusContext";
+import GameStateContext from "./GameStateContext";
 import Header from "./Header";
 
 const Start = () => {
   const { gameOptions, setGameOptions, setGameStatus, setNickname } =
-    useContext(GameStatusContext);
+    useContext(GameStateContext);
 
   const handleSelect = (e) => {
     setGameOptions({ ...gameOptions, difficulty: e.target.value });
@@ -26,7 +26,7 @@ const Start = () => {
       <Header text={welcomeText} />
       <div className="player-info">
         <div className="player-info__row">
-          <label for="difficulty-level">Choose difficulty level: </label>
+          <label htmlFor="difficulty-level">Choose difficulty level: </label>
           <select
             value={gameOptions.difficulty}
             onChange={handleSelect}
@@ -39,7 +39,7 @@ const Start = () => {
           </select>
         </div>
         <div className="player-info__row">
-          <label for="nick">Enter your nickname: </label>
+          <label htmlFor="nick">Enter your nickname: </label>
           <input
             onChange={handleInput}
             type="text"

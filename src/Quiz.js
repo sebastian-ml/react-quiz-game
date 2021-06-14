@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
-import GameStartCountdown from "./GameStartCountdown.js";
+import GameStartCountdown from "./GameStartCountdown";
 import useFetchQuestions from "./useFetchQuestions";
 import Question from "./Question";
 import Endgame from "./Endgame";
 import useCountdown from "./useCountdown";
-import Timer from "./Timer";
+import QuestionStats from "./QuestionStats";
 
 const Quiz = ({ gameOptions }) => {
-  const timeToStartGame = 3000;
+  const timeBeforeGameStart = 3000;
   const timeForAnswer = 5000;
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questionAnswers, setQuestionAnswers] = useState(null);
   const [quizReady, setQuizReady] = useState(false);
-  const [questionNumber, setQuestionNumber] = useState(1);
-  const [points, setPoints] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
+  const [points, setPoints] = useState(0);
 
-  const { questions, setQuestions, fetchComplete } =
+  const { questions, setQuestions, fetchCompleted } =
     useFetchQuestions(gameOptions);
   const { timeLeft, setTimeLeft } = useCountdown(timeForAnswer);
 
@@ -25,11 +24,11 @@ const Quiz = ({ gameOptions }) => {
     setTimeout(() => {
       setQuizReady(true);
       setTimeLeft(timeForAnswer);
-    }, timeToStartGame);
+    }, timeBeforeGameStart);
   }, []);
 
   useEffect(() => {
-    if (!fetchComplete) return;
+    if (!fetchCompleted) return;
 
     if (questions.length > 0) {
       const shuffledAnswers = shuffleAnswers(questions[0]);
@@ -41,7 +40,7 @@ const Quiz = ({ gameOptions }) => {
       setQuestionAnswers(null);
       setGameEnd(true);
     }
-  }, [fetchComplete, questions]);
+  }, [fetchCompleted, questions]);
 
   useEffect(() => {
     if (timeLeft === 0 && currentQuestion != null) updateQuestions();
@@ -59,7 +58,6 @@ const Quiz = ({ gameOptions }) => {
 
     setTimeLeft(timeForAnswer);
     setQuestions(questionsCopy);
-    setQuestionNumber(questionNumber + 1);
   };
 
   const handleAnswer = (e) => {
@@ -71,16 +69,14 @@ const Quiz = ({ gameOptions }) => {
 
   return (
     <>
-      {!quizReady && <GameStartCountdown time={timeToStartGame} />}
+      {!quizReady && <GameStartCountdown time={timeBeforeGameStart} />}
       {quizReady && currentQuestion !== null && (
         <>
-          <div>
-            <p>
-              Question {questionNumber} / {gameOptions.amount}
-            </p>
-            <p>Points: {points}</p>
-            <Timer timeLeft={timeLeft} />
-          </div>
+          <QuestionStats
+            timeLeft={timeLeft}
+            points={points}
+            questionNumber={gameOptions.amount - questions.length + 1}
+          />
           <Question
             question={currentQuestion.question}
             answers={questionAnswers}
@@ -88,9 +84,7 @@ const Quiz = ({ gameOptions }) => {
           />
         </>
       )}
-      {gameEnd && (
-        <Endgame score={points} totalQuestionsNumber={gameOptions.amount} />
-      )}
+      {gameEnd && <Endgame score={points} />}
     </>
   );
 };
